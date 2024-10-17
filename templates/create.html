@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="icon" type="image" href="https://cdn-icons-png.flaticon.com/512/1259/1259434.png">
+        <title>Create your wishes!</title>
+        <style>
+        label{
+            align-items: center;
+            margin-left: 30px;
+            font-size: 20px;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }  
+
+        .txt-input{
+            margin-left: 30px;
+            height: 25px;      
+            border: 1px;
+            border-radius: 10px;
+            border-color: black;  
+            background-color: rgba(68, 66, 66, 0.308);  
+            width: 300px;
+        }
+        
+        .button{
+            margin-top: 10px;
+            margin-left: 15px;
+            width: 90%;
+            height: 25px;
+            border: 1px;
+            border-radius: 10px;
+            border-color: black;  
+            background-color: rgba(29, 212, 5, 0.479);  
+        }
+
+        .button:hover{
+            background-color: rgba(12, 71, 5, 0.479); 
+        }
+
+        div{
+            position: fixed;
+            inset: 0;
+            width: 400px;
+            height: 280px;
+            margin: auto;
+            background-color: rgb(255 255 255 / 30%);
+            backdrop-filter: blur(10px);   
+            
+        }
+        body{
+            background-image:url(https://img.freepik.com/free-vector/sky-background-video-conferencing_23-2148623067.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        </style>
+        <script>
+            function encrypt(key, text) {
+                const ref = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ/.:+-%&';
+                const length = ref.length;
+                let retur = "";
+                
+                for (let char of text) {
+                    const ind = ref.indexOf(char);
+                    const result = ind !== -1 ? ind + key : null;
+                    retur += result === null ? char : ref[result - (length * Math.floor(result / length))];
+                }
+                
+                return retur;
+            }
+
+            function preview(){
+                var name = document.getElementById("name");
+                var img = document.getElementById("image");
+                var festival = document.getElementById('festival');
+                var d = name.value+"|"+festival.value+"|"+img.value
+                location.href = "http://127.0.0.1:5000/create/preview?d="+encrypt(12,d);
+            }
+
+            function save(){
+                var name = document.getElementById("name");
+                var img = document.getElementById("image");
+                var festival = document.getElementById('festival');
+                var d = name.value+"|"+festival.value+"|"+img.value
+                location.href = "http://127.0.0.1:5000/create/save?d="+encrypt(12,d);
+            }
+
+        </script>
+    </head>
+    <body>            
+        <div>
+            <br>
+            <label>Name</label><br>
+            <input type="text" class="txt-input" id="name">
+            <br>
+            <label>Festival</label><br>
+            <input type="text" class="txt-input" id="festival">
+            <br>
+            <label>Image URL</label><br>
+            <input type="text" class="txt-input" id="image"><br>
+
+            <input type="submit" class="button" id="submit" onclick="save()">
+            <input type="button" class="button" id="preview" value="Pre-view" onclick="preview();"><br>
+        </div>
+    </body>
+</html>
